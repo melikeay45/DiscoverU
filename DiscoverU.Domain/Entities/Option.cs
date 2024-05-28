@@ -13,6 +13,6 @@ namespace DiscoverU.Domain.Entities
         public string Text { get; set; }
         public int QuestionId { get; set; }
         public Question Question { get; set; }
-        public Question Questio { get; set; }
+        
     }
 }
