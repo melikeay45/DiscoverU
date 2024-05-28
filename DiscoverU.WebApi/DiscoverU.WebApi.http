@@ -1,0 +1,6 @@
+@DiscoverU.WebApi_HostAddress = http://localhost:5206
+
+GET {{DiscoverU.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
