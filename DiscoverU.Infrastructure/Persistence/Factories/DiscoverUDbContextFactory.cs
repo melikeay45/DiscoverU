@@ -12,7 +12,7 @@ namespace DiscoverU.Infrastructure.Persistence.Factories
             var optionsBuilder = new DbContextOptionsBuilder<DiscoverUDbContext>();
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
-             .SetBasePath($"{Directory.GetParent(Directory.GetCurrentDirectory())}/DiscoveryU.Infrastructure")
+             .SetBasePath($"{Directory.GetParent(Directory.GetCurrentDirectory())}/DiscoverU.WebApi")
              .AddJsonFile("appsettings.json")
              .Build();
 
