@@ -1,10 +1,5 @@
 ﻿using DiscoverU.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace DiscoverU.Infrastructure.Persistence.Contexts
 {
@@ -17,6 +12,9 @@ namespace DiscoverU.Infrastructure.Persistence.Contexts
         public DbSet<Response> Responses { get; set; }
         public DbSet<Survey> Surveys { get; set;}
 
-
+        public DiscoverUDbContext(DbContextOptions<DiscoverUDbContext> options) : base(options)
+        {
+            
+        }
     }
 }
