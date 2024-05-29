@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscoverU.Infrastructure", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscoverU.Persistence", "DiscoverU.Persistence\DiscoverU.Persistence.csproj", "{B3AF5E22-F6BD-406A-AC59-6BBB92862E25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscoverU.WebApi", "DiscoverU.WebApi\DiscoverU.WebApi.csproj", "{462DBC3D-A8B3-456E-8080-0864B84ED28B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscoverU.WebApi", "DiscoverU.WebApi\DiscoverU.WebApi.csproj", "{462DBC3D-A8B3-456E-8080-0864B84ED28B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscoverU.Presentation", "DiscoverU.Presentation\DiscoverU.Presentation.csproj", "{3BAD30E2-A9D5-4DB7-92D6-587870CE476A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{462DBC3D-A8B3-456E-8080-0864B84ED28B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{462DBC3D-A8B3-456E-8080-0864B84ED28B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{462DBC3D-A8B3-456E-8080-0864B84ED28B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BAD30E2-A9D5-4DB7-92D6-587870CE476A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BAD30E2-A9D5-4DB7-92D6-587870CE476A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BAD30E2-A9D5-4DB7-92D6-587870CE476A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BAD30E2-A9D5-4DB7-92D6-587870CE476A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
