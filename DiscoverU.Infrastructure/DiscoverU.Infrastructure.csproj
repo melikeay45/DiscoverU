@@ -16,4 +16,8 @@
     <ProjectReference Include="..\DiscoverU.Domain\DiscoverU.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Persistence\Services\" />
+  </ItemGroup>
+
 </Project>
