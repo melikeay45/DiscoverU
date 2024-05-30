@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DiscoverU.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,17 @@ namespace DiscoverU.Application.Dtos.OptionDto
     {
         public string Text { get; set; }
         public Guid QuestionId { get; set; }
+
+        public static Option MapToOption(AddOptionDto addOptionDto)
+        {
+            return new Option
+            { 
+                Id=Guid.NewGuid(),
+                Text = addOptionDto.Text,
+                QuestionId = addOptionDto.QuestionId,
+            };
+            
+        }
 
     }
 }

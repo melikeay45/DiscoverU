@@ -13,6 +13,8 @@ namespace DiscoverU.Domain.Entities
         public int SurveyId { get; set; }
         public Survey Survey { get; set;}
         public ICollection<Option> Options { get; set; }
+        public bool IsDelete { get; set; }
+
 
     }
 }

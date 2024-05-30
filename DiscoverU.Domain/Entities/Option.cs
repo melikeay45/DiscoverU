@@ -13,6 +13,7 @@ namespace DiscoverU.Domain.Entities
         public string Text { get; set; }
         public Guid QuestionId { get; set; }
         public Question Question { get; set; }
+        public bool IsDelete { get; set; }
         
     }
 }

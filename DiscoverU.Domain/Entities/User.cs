@@ -13,5 +13,7 @@ namespace DiscoverU.Domain.Entities
         public string LastName { get; set; }
         public string Email { get; set; }
         public ICollection<Response> Responses { get; set; }
+        public bool IsDelete { get; set; }
+
     }
 }

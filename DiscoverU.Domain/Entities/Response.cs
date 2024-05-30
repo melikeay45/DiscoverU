@@ -1,9 +1,4 @@
 ﻿using DiscoverU.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DiscoverU.Domain.Entities
 {
@@ -17,5 +12,9 @@ namespace DiscoverU.Domain.Entities
         public int OptionId { get; set; }
 
         public Option Option { get; set; }
+
+        public bool IsDelete { get; set; }
+
     }
+
 }

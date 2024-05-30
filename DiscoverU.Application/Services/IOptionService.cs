@@ -9,10 +9,10 @@ namespace DiscoverU.Application.Services
 {
     public interface IOptionService
     {
-        List<GetOptionDto> GetAll();
-        GetOptionDto GetById(Guid id);
-        void Add(AddOptionDto addOptionDto);
+        Task<List<GetOptionDto>> GetAllAsync();
+        Task<GetOptionDto> GetByIdAsync(Guid id);
+        void Add(ICollection<AddOptionDto> addOptionDto);
         void Update(UpdateOptionDto updateOptionDto);
-        void Delete(Guid id);
+        Task DeleteAsync(Guid id);
     }
 }
