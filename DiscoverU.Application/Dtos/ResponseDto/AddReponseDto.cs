@@ -8,7 +8,6 @@ namespace DiscoverU.Application.Dtos.ResponseDto
 {
     public class AddReponseDto
     {
-
         public Guid UserId { get; set; }
         public Guid QuestionId { get; set; }
         public int OptionId { get; set; }

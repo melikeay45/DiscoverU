@@ -13,9 +13,4 @@ namespace DiscoverU.Application.Dtos.QuestionDto
         public int SurveyId { get; set; }
         public ICollection<AddOptionDto> Options { get; set; }
     }
-    public class AddOptionDto
-    {
-        public string Text { get; set; }
-        public bool IsCorrect { get; set; }
-    }
 }

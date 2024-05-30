@@ -15,10 +15,5 @@ namespace DiscoverU.Application.Dtos.QuestionDto
         public string SurveyName { get; set; }
         public ICollection<GetOptionDto> Options { get; set; }
     }
-    public class GetOptionDto
-    {
-        public Guid Id { get; set; }
-        public string Text { get; set; }
-        public bool IsCorrect { get; set; }
-    }
+    
 }
