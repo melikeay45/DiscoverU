@@ -11,7 +11,7 @@ namespace DiscoverU.Application.Services
     public interface IQuestionService
     {
         List<GetQuestionDto> GetAll();
-        GetQuestionDto GetById(Guid id);
+        GetQuestionDto GetById(int id);
         void Add(AddQuestionDto addQuestionDto);
         void Update(UpdateQuestionDto updateQuestionDto);
         void Delete(Guid id);

@@ -9,6 +9,7 @@ namespace DiscoverU.Application.Dtos.OptionDto
     public class AddOptionDto
     {
         public string Text { get; set; }
-        public int QuestionId { get; set; }
+        public Guid QuestionId { get; set; }
+
     }
 }
