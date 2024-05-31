@@ -16,7 +16,7 @@ namespace DiscoverU.WebApi.Controllers
             _surveyService = surveyService;
         }
 
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<IActionResult> AddAsync(AddSurveyDto addSurveyDto)
         {
 
@@ -24,7 +24,7 @@ namespace DiscoverU.WebApi.Controllers
             return Ok();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("[action]/{id}")]
         public async Task<ActionResult> DeleteAsync(Guid id)
         {
             await _surveyService.DeleteAsync(id);
@@ -32,14 +32,14 @@ namespace DiscoverU.WebApi.Controllers
         }
 
 
-        [HttpGet("{questionId}")]
+        [HttpGet("[action]/{questionId}")]
         public async Task<ActionResult<IEnumerable<GetOptionDto>>> GetAllAsync()
         {
             var surveys = await _surveyService.GetAllAsync();
             return Ok(surveys);
         }
 
-        [HttpPut]
+        [HttpPut("[action]")]
         public async Task<ActionResult> UpdateAsync([FromBody] UpdateSurveyDto updateSurveyDto)
         {
             await _surveyService.UpdateAsync(updateSurveyDto);
