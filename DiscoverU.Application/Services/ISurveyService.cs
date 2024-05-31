@@ -14,6 +14,6 @@ namespace DiscoverU.Application.Services
         Task<GetSurveyDto> GetByIdAsync(Guid id);
         Task AddAsync(AddSurveyDto addSurveyDto);
         Task UpdateAsync(UpdateSurveyDto updateSurveyDto);
-        Task Delete(Guid id);
+        Task DeleteAsync(Guid id);
     }
 }

@@ -26,13 +26,15 @@ namespace DiscoverU.Infrastructure.Persistence.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
             var survay =await _dbContext.Surveys.FirstOrDefaultAsync(survay => survay.Id == id);
 
             survay.IsDelete = true;
             await _dbContext.SaveChangesAsync();
         }
+
+       
 
         public async Task<IEnumerable<GetSurveyDto>> GetAllAsync()
         {
