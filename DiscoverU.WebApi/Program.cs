@@ -2,6 +2,8 @@ using DiscoverU.Application.Services;
 using DiscoverU.Infrastructure.Persistence.Contexts;
 using DiscoverU.Infrastructure.Persistence.Services;
 using Microsoft.EntityFrameworkCore;
+using OpenAI.Extensions;
+using OpenAI.Managers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,17 @@ builder.Services.AddScoped<IQuestionService, QuestionService>();
 builder.Services.AddScoped<IOptionService, OptionService>();
 
 builder.Services.AddScoped<ISurveyService, SurveyService>();
+
+//builder.Services.AddOpenAIService(settings => settings.ApiKey = "OpenAIApiKey:ApiKey");
+
+var openAiApiKey = builder.Configuration["OpenAIApiKey:ApiKey"];
+if (string.IsNullOrEmpty(openAiApiKey))
+{
+    throw new ArgumentNullException("OpenAI API key is not configured.");
+}
+builder.Services.AddOpenAIService(settings => settings.ApiKey = openAiApiKey);
+
+
 
 var app = builder.Build();
 
