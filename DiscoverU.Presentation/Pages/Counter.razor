@@ -1,14 +1,71 @@
 ﻿@page "/counter"
+@inject IJSRuntime JSRuntime
 
 <PageTitle>Counter</PageTitle>
+@using Microsoft.JSInterop
 
-<h1>Counter</h1>
-
-<p role="status">Current count: @currentCount</p>
-
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<div class="flex justify-center items-center min-h-screen bg-gray-800">
+    <div class="grid grid-cols-3 gap-4">
+        @foreach (var shape in shapes)
+        {
+            <div class="shape-container" @onmouseover="() => StartRotate(shape)" @onmouseout="() => StopRotate(shape)">
+                <svg class="shape animate-fadeIn" width="100" height="100">
+                    @if (shape.Type == "circle")
+                    {
+                        <circle cx="50" cy="50" r="40" stroke="@shape.Color" stroke-width="4" fill="none" />
+                    }
+                    else if (shape.Type == "line")
+                    {
+                        <line x1="20" y1="20" x2="80" y2="80" stroke="@shape.Color" stroke-width="4" />
+                        <line x1="80" y1="20" x2="20" y2="80" stroke="@shape.Color" stroke-width="4" />
+                    }
+                    else if (shape.Type == "rect")
+                    {
+                        <rect x="20" y="20" width="60" height="60" stroke="@shape.Color" stroke-width="4" fill="none" />
+                    }
+                </svg>
+            </div>
+        }
+    </div>
+</div>
 
 @code {
+    private List<Shape> shapes = new()
+    {
+        new Shape("circle", "red"),
+        new Shape("line", "green"),
+        new Shape("rect", "blue"),
+        new Shape("circle", "blue"),
+        new Shape("line", "red"),
+        new Shape("rect", "green"),
+        new Shape("circle", "green"),
+        new Shape("line", "blue"),
+        new Shape("rect", "red")
+    };
+
+    public class Shape
+    {
+        public string Type { get; }
+        public string Color { get; }
+        public Shape(string type, string color)
+        {
+            Type = type;
+            Color = color;
+        }
+    }
+
+    private void StartRotate(Shape shape) =>
+        // Trigger JavaScript to start rotating animation
+        JSRuntime.InvokeVoidAsync("startRotate", shape);
+
+    private void StopRotate(Shape shape)
+    {
+        // Trigger JavaScript to stop rotating animation
+        JSRuntime.InvokeVoidAsync("stopRotate", shape);
+    }
+}
+
+@* @code {
     private int currentCount = 0;
 
     private void IncrementCount()
@@ -16,3 +73,4 @@
         currentCount++;
     }
 }
+ *@

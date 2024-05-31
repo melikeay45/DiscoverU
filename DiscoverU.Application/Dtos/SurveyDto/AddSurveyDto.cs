@@ -13,6 +13,8 @@ namespace DiscoverU.Application.Dtos.SurveyDto
         public string Title { get; set; }
         public string Description { get; set; }
 
+        public string ImageUrl { get; set; }
+
 
         public static Survey MapToSurvey(AddSurveyDto addSurveyDto)
         {
@@ -21,6 +23,7 @@ namespace DiscoverU.Application.Dtos.SurveyDto
                 Id = Guid.NewGuid(),
                 Title = addSurveyDto.Title,
                 Description = addSurveyDto.Description,
+                ImageUrl = addSurveyDto.ImageUrl,
             };
         }
     }
