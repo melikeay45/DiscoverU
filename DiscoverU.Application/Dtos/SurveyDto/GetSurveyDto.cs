@@ -13,7 +13,8 @@ namespace DiscoverU.Application.Dtos.SurveyDto
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public ICollection<GetQuestionDto> Questions { get; set; }
+
+        public string ImageUrl { get; set; }
 
         public static GetSurveyDto MapToGetSurveyDto(Survey survey)
         {
@@ -22,6 +23,7 @@ namespace DiscoverU.Application.Dtos.SurveyDto
                 Id = survey.Id,
                 Title = survey.Title,
                 Description = survey.Description,
+                ImageUrl = survey.ImageUrl,
             };
 
         }

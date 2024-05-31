@@ -61,6 +61,7 @@ namespace DiscoverU.Infrastructure.Persistence.Services
             {
                 survey.Title = updateSurveyDto.Title;
                 survey.Description = updateSurveyDto.Description;
+                survey. ImageUrl=updateSurveyDto.ImageUrl;
             }
             await _dbContext.SaveChangesAsync();
         }
