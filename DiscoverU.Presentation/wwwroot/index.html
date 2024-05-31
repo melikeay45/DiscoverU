@@ -9,7 +9,21 @@
     <link rel="stylesheet" href="css/app.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <link href="DiscoverU.Presentation.styles.css" rel="stylesheet" />
-   
+    <script>
+        function startRotate(shape) {
+            const element = document.querySelector(`.${shape.Type}[stroke='${shape.Color}']`);
+            if (element) {
+                element.style.animation = 'rotateShape 2s linear infinite';
+            }
+        }
+
+        function stopRotate(shape) {
+            const element = document.querySelector(`.${shape.Type}[stroke='${shape.Color}']`);
+            if (element) {
+                element.style.animation = '';
+            }
+        }
+    </script>
 </head>
 
 <body>

@@ -1,0 +1,31 @@
+﻿<h3>QuizPage</h3>
+
+@page "/quiz"
+<div class="container mx-auto py-8">
+    <ProgressComponent CurrentStep="currentStep" TotalSteps="totalSteps" />
+    <QuestionComponent Question="question" Answers="answers" OnAnswerSelected="OnAnswerSelected" />
+    <div class="flex justify-between mt-4">
+        <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <p class="text-gray-600">@currentStep / @totalSteps</p>
+    </div>
+</div>
+@code {
+    private int currentStep = 3;
+    private int totalSteps = 70;
+    private string question = "Hangisi daha kötü?";
+    private List<string> answers = new List<string>
+    {
+        "Hayal dünyasında yaşamak.",
+        "Bir rutine bağlı yaşamak."
+    };
+
+    private void OnAnswerSelected(string answer)
+    {
+        // Handle the answer selection
+        Console.WriteLine($"Selected answer: {answer}");
+    }
+}
+
+

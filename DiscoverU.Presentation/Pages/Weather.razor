@@ -1,57 +1,37 @@
 ﻿@page "/weather"
-@inject HttpClient Http
-
-<PageTitle>Weather</PageTitle>
-
-<h1>Weather</h1>
-
-<p>This component demonstrates fetching data from the server.</p>
-
-@if (forecasts == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in forecasts)
-            {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+@using System.Threading.Tasks
+<div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-10">
+    <div class="md:flex">
+        <div class="w-full p-4">
+            <div class="flex justify-between items-center mb-4">
+                <div class="text-xl font-medium text-black">Kalabalık bir etkinlikte:</div>
+                <div class="text-sm text-gray-500">1 / 70</div>
+            </div>
+            <div class="space-y-4">
+                <button class="w-full px-4 py-2 text-left bg-gray-100 hover:bg-gray-200 rounded-md" ">
+                    Yabancılar da dahil olmak üzere birçok kişiyle iletişim kurarım.
+                </button>
+                <button class="w-full px-4 py-2 text-left bg-gray-100 hover:bg-gray-200 rounded-md"">
+                    Sadece tanıdığım insanlarla iletişim kurarım.
+                </button>
+            </div>
+            <div class="flex justify-end mt-4">
+                <button class="text-gray-500 hover:text-gray-700" @onclick="GoBack">←</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @code {
-    private WeatherForecast[]? forecasts;
-
-    protected override async Task OnInitializedAsync()
+    private void OnOptionSelected(string option)
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+        // Seçilen seçeneği işleme kodu
+        Console.WriteLine($"Seçilen seçenek: {option}");
     }
 
-    public class WeatherForecast
+    private void GoBack()
     {
-        public DateOnly Date { get; set; }
-
-        public int TemperatureC { get; set; }
-
-        public string? Summary { get; set; }
-
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        // Geri gitme işlemi
+        Console.WriteLine("Geri gidildi");
     }
 }

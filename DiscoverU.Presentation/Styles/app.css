@@ -87,3 +87,49 @@ function stopRotate(shape) {
 .animate-fadeIn {
     animation: fadeIn 2s ease-out;
 }
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes rotateShape {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+/* Additional custom styles */
+.bg-gray-100 {
+    background-color: #f7fafc;
+}
+
+.bg-gray-200 {
+    background-color: #edf2f7;
+}
+
+.bg-gray-300 {
+    background-color: #e2e8f0;
+}
+
+.bg-gray-400 {
+    background-color: #cbd5e0;
+}
+
+.text-gray-600 {
+    color: #718096;
+}
+
+.text-gray-800 {
+    color: #2d3748;
+}
+
