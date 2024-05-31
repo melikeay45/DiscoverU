@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DiscoverU.Infrastructure.Migrations
 {
     [DbContext(typeof(DiscoverUDbContext))]
-    [Migration("20240531115238_CreateDatabese")]
-    partial class CreateDatabese
+    [Migration("20240531214045_CreateDatabase")]
+    partial class CreateDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
