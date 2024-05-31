@@ -15,5 +15,7 @@ namespace DiscoverU.Domain.Entities
         public ICollection<Question> Questions { get; set; }
         public bool IsDelete { get; set; }
 
+        public string ImageUrl {  get; set; }
+
     }
 }
