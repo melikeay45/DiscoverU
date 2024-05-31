@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DiscoverU.Infrastructure.Migrations
 {
     [DbContext(typeof(DiscoverUDbContext))]
-    [Migration("20240530161301_CreateDatabase")]
-    partial class CreateDatabase
+    [Migration("20240531115238_CreateDatabese")]
+    partial class CreateDatabese
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -126,6 +126,10 @@ namespace DiscoverU.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("text");
 
