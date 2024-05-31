@@ -38,7 +38,7 @@ namespace DiscoverU.Infrastructure.Persistence.Services
 
         public async Task<IEnumerable<GetSurveyDto>> GetAllAsync()
         {
-            var surveys = _dbContext.Surveys.Where(survay => survay.IsDelete!).ToList();
+            var surveys = _dbContext.Surveys.Where(survay => survay.IsDelete==false).ToList();
 
             var getSurveyDtos = surveys.Select(survey => GetSurveyDto.MapToGetSurveyDto(survey));
 
@@ -55,13 +55,14 @@ namespace DiscoverU.Infrastructure.Persistence.Services
 
         public async Task UpdateAsync(UpdateSurveyDto updateSurveyDto)
         {
-            var survey =await _dbContext.Surveys.FirstOrDefaultAsync(survay => survay.IsDelete! && survay.Id == updateSurveyDto.Id);
+            var survey =await _dbContext.Surveys.FirstOrDefaultAsync(survay => survay.IsDelete==false && survay.Id == updateSurveyDto.Id);
 
             if (survey is not null)
             {
                 survey.Title = updateSurveyDto.Title;
                 survey.Description = updateSurveyDto.Description;
             }
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

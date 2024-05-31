@@ -32,7 +32,7 @@ namespace DiscoverU.WebApi.Controllers
         }
 
 
-        [HttpGet("[action]/{questionId}")]
+        [HttpGet("[action]")]
         public async Task<ActionResult<IEnumerable<GetOptionDto>>> GetAllAsync()
         {
             var surveys = await _surveyService.GetAllAsync();

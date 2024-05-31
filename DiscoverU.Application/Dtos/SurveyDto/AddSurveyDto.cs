@@ -12,7 +12,6 @@ namespace DiscoverU.Application.Dtos.SurveyDto
     {
         public string Title { get; set; }
         public string Description { get; set; }
-        public ICollection<AddQuestionDto>? Questions { get; set; }
 
 
         public static Survey MapToSurvey(AddSurveyDto addSurveyDto)

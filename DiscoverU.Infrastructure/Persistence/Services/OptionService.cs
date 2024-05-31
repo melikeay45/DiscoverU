@@ -40,7 +40,7 @@ namespace DiscoverU.Infrastructure.Persistence.Services
 
         public async Task<IEnumerable<GetOptionDto>> GetAllByQuestionIdAsync(Guid questionId)
         {
-            var options = _dbContext.Options.Where(option => option.QuestionId == questionId).ToList();
+            var options = _dbContext.Options.Where(option => option.IsDelete==false && option.QuestionId == questionId).ToList();
 
             var getOptionDtos= options.Select(option => GetOptionDto.MapToGetOptionDto(option));
 
@@ -60,7 +60,6 @@ namespace DiscoverU.Infrastructure.Persistence.Services
             if(option != null)
             {
                 option.Text = updateOptionDto.Text;
-                option.QuestionId = updateOptionDto.QuestionId;
             }
             await _dbContext.SaveChangesAsync();
         }
