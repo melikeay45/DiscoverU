@@ -63,3 +63,27 @@
     .loading-progress-text:after {
         content: var(--blazor-load-percentage-text, "Loading");
     }
+
+function startRotate(shape) {
+    const element = document.querySelector(`.${shape.Type}[stroke='${shape.Color}']`);
+    element .style.animation = 'rotateShape 2s linear infinite';
+}
+
+function stopRotate(shape) {
+    const element = document.querySelector(`.${shape.Type}[stroke='${shape.Color}']`);
+    element .style.animation = '';
+}
+.shape-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.shape {
+    width: 100px;
+    height: 100px;
+}
+
+.animate-fadeIn {
+    animation: fadeIn 2s ease-out;
+}
