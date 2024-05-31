@@ -30,7 +30,8 @@ namespace DiscoverU.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false)
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    IsDelete = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,7 +45,8 @@ namespace DiscoverU.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     FirstName = table.Column<string>(type: "text", nullable: false),
                     LastName = table.Column<string>(type: "text", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: false)
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    IsDelete = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -57,15 +59,15 @@ namespace DiscoverU.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Text = table.Column<string>(type: "text", nullable: false),
-                    SurveyId = table.Column<int>(type: "integer", nullable: false),
-                    SurveyId1 = table.Column<Guid>(type: "uuid", nullable: false)
+                    SurveyId = table.Column<Guid>(type: "uuid", nullable: false),
+                    IsDelete = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Question", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Question_Surveys_SurveyId1",
-                        column: x => x.SurveyId1,
+                        name: "FK_Question_Surveys_SurveyId",
+                        column: x => x.SurveyId,
                         principalTable: "Surveys",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -77,15 +79,15 @@ namespace DiscoverU.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Text = table.Column<string>(type: "text", nullable: false),
-                    QuestionId = table.Column<int>(type: "integer", nullable: false),
-                    QuestionId1 = table.Column<Guid>(type: "uuid", nullable: false)
+                    QuestionId = table.Column<Guid>(type: "uuid", nullable: false),
+                    IsDelete = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Options", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Options_Question_QuestionId1",
-                        column: x => x.QuestionId1,
+                        name: "FK_Options_Question_QuestionId",
+                        column: x => x.QuestionId,
                         principalTable: "Question",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -98,15 +100,15 @@ namespace DiscoverU.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     QuestionId = table.Column<Guid>(type: "uuid", nullable: false),
-                    OptionId = table.Column<int>(type: "integer", nullable: false),
-                    OptionId1 = table.Column<Guid>(type: "uuid", nullable: false)
+                    OptionId = table.Column<Guid>(type: "uuid", nullable: false),
+                    IsDelete = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Responses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Responses_Options_OptionId1",
-                        column: x => x.OptionId1,
+                        name: "FK_Responses_Options_OptionId",
+                        column: x => x.OptionId,
                         principalTable: "Options",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -125,19 +127,19 @@ namespace DiscoverU.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Options_QuestionId1",
+                name: "IX_Options_QuestionId",
                 table: "Options",
-                column: "QuestionId1");
+                column: "QuestionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Question_SurveyId1",
+                name: "IX_Question_SurveyId",
                 table: "Question",
-                column: "SurveyId1");
+                column: "SurveyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Responses_OptionId1",
+                name: "IX_Responses_OptionId",
                 table: "Responses",
-                column: "OptionId1");
+                column: "OptionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Responses_QuestionId",

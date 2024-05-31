@@ -10,10 +10,11 @@ namespace DiscoverU.Application.Services
 {
     public interface IQuestionService
     {
-        Task<List<GetQuestionDto>> GetAllAsync();
+        Task<IEnumerable<GetQuestionDto>> GetAllBySurveyIdAsync(Guid surveyId);
         Task<GetQuestionDto> GetByIdAsync(int id);
-        void Add(AddQuestionDto addQuestionDto);
-        void Update(UpdateQuestionDto updateQuestionDto);
+        Task AddAsync(AddQuestionDto addQuestionDto);
+        Task UpdateAsync(UpdateQuestionDto updateQuestionDto);
         Task DeleteAsync(Guid id);
+
     }
 }

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DiscoverU.Infrastructure.Migrations
 {
     [DbContext(typeof(DiscoverUDbContext))]
-    [Migration("20240530121845_AddIsDeleteAllTable2")]
-    partial class AddIsDeleteAllTable2
+    [Migration("20240530161301_CreateDatabase")]
+    partial class CreateDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,10 +76,7 @@ namespace DiscoverU.Infrastructure.Migrations
                     b.Property<bool>("IsDelete")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("SurveyId")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("SurveyId1")
+                    b.Property<Guid>("SurveyId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Text")
@@ -88,7 +85,7 @@ namespace DiscoverU.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SurveyId1");
+                    b.HasIndex("SurveyId");
 
                     b.ToTable("Question");
                 });
@@ -102,10 +99,7 @@ namespace DiscoverU.Infrastructure.Migrations
                     b.Property<bool>("IsDelete")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("OptionId")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("OptionId1")
+                    b.Property<Guid>("OptionId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("QuestionId")
@@ -116,7 +110,7 @@ namespace DiscoverU.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OptionId1");
+                    b.HasIndex("OptionId");
 
                     b.HasIndex("QuestionId");
 
@@ -188,7 +182,7 @@ namespace DiscoverU.Infrastructure.Migrations
                 {
                     b.HasOne("DiscoverU.Domain.Entities.Survey", "Survey")
                         .WithMany("Questions")
-                        .HasForeignKey("SurveyId1")
+                        .HasForeignKey("SurveyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -199,7 +193,7 @@ namespace DiscoverU.Infrastructure.Migrations
                 {
                     b.HasOne("DiscoverU.Domain.Entities.Option", "Option")
                         .WithMany()
-                        .HasForeignKey("OptionId1")
+                        .HasForeignKey("OptionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

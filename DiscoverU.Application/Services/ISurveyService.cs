@@ -1,4 +1,5 @@
-﻿using DiscoverU.Application.Dtos.SurveyDto;
+﻿using DiscoverU.Application.Dtos.OptionDto;
+using DiscoverU.Application.Dtos.SurveyDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace DiscoverU.Application.Services
 {
     public interface ISurveyService
     {
-        List<GetSurveyDto> GetAll();
-        GetSurveyDto GetById(Guid id);
-        void Add(AddSurveyDto addSurveyDto);
-        void Update(UpdateSurveyDto updateSurveyDto);
-        void Delete(Guid id);
+        Task<IEnumerable<GetSurveyDto>> GetAllAsync();
+        Task<GetSurveyDto> GetByIdAsync(Guid id);
+        Task AddAsync(AddSurveyDto addSurveyDto);
+        Task UpdateAsync(UpdateSurveyDto updateSurveyDto);
+        Task Delete(Guid id);
     }
 }

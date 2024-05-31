@@ -9,7 +9,7 @@ namespace DiscoverU.Domain.Entities
         public User User { get; set; }
         public Guid QuestionId { get; set; }
         public Question Question { get; set; }
-        public int OptionId { get; set; }
+        public Guid OptionId { get; set; }
 
         public Option Option { get; set; }
 

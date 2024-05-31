@@ -1,4 +1,6 @@
+using DiscoverU.Application.Services;
 using DiscoverU.Infrastructure.Persistence.Contexts;
+using DiscoverU.Infrastructure.Persistence.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +16,10 @@ builder.Services.AddDbContext<DiscoverUDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL"));
 });
+
+builder.Services.AddScoped<IQuestionService, QuestionService>();
+
+builder.Services.AddScoped<IOptionService, OptionService>();
 
 var app = builder.Build();
 

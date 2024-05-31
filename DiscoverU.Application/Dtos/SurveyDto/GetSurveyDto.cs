@@ -1,4 +1,5 @@
 ﻿using DiscoverU.Application.Dtos.QuestionDto;
+using DiscoverU.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,18 +14,17 @@ namespace DiscoverU.Application.Dtos.SurveyDto
         public string Title { get; set; }
         public string Description { get; set; }
         public ICollection<GetQuestionDto> Questions { get; set; }
-    }
-    public class GetQuestionDto
-    {
-        public Guid Id { get; set; }
-        public string Text { get; set; }
-        public ICollection<GetOptionDto> Options { get; set; }
-    }
 
-    public class GetOptionDto
-    {
-        public Guid Id { get; set; }
-        public string Text { get; set; }
-        public bool IsCorrect { get; set; }
+        public static GetSurveyDto MapToGetSurveyDto(Survey survey)
+        {
+            return new GetSurveyDto
+            {
+                Id = survey.Id,
+                Title = survey.Title,
+                Description = survey.Description,
+            };
+
+        }
     }
+ 
 }

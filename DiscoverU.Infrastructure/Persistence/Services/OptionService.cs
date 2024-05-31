@@ -1,13 +1,7 @@
 ﻿using DiscoverU.Application.Dtos.OptionDto;
 using DiscoverU.Application.Services;
-using DiscoverU.Domain.Entities;
 using DiscoverU.Infrastructure.Persistence.Contexts;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace DiscoverU.Infrastructure.Persistence.Services
 {
@@ -20,29 +14,37 @@ namespace DiscoverU.Infrastructure.Persistence.Services
             _dbContext = dbContext;
         }
 
-        public void Add(ICollection<AddOptionDto> addOptionDto)
+        public async Task AddAsync(ICollection<AddOptionDto> addOptionDtos)
         {
 
-            foreach (var option in addOptionDto)
+            foreach (var addOption in addOptionDtos)
             {
-                var newOption= new AddOptionDto()
-                {
-                    Text = option.Text,
-                    QuestionId = option.QuestionId,
-                };
-                
-                _dbContext.Add(newOption);
-            }          
+                var newOption = AddOptionDto.MapToOption(addOption);
+
+
+                _dbContext.Options.Add(newOption);
+            }
+            await _dbContext.SaveChangesAsync();
+
         }
 
-        public Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var option = await _dbContext.Options.FirstOrDefaultAsync(option => option.Id == id);
+            if (option != null)
+            {
+                option.IsDelete= true;
+                await _dbContext.SaveChangesAsync();
+            }
         }
 
-        public Task<List<GetOptionDto>> GetAllAsync()
+        public async Task<IEnumerable<GetOptionDto>> GetAllByQuestionIdAsync(Guid questionId)
         {
-            throw new NotImplementedException();
+            var options = _dbContext.Options.Where(option => option.QuestionId == questionId).ToList();
+
+            var getOptionDtos= options.Select(option => GetOptionDto.MapToGetOptionDto(option));
+
+            return await Task.FromResult(getOptionDtos);
         }
 
         public Task<GetOptionDto> GetByIdAsync(Guid id)
@@ -50,14 +52,19 @@ namespace DiscoverU.Infrastructure.Persistence.Services
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(UpdateOptionDto updateOptionDto)
+
+        public async Task UpdateAsync(UpdateOptionDto updateOptionDto)
         {
-            throw new NotImplementedException();
+            var option= _dbContext.Options.FirstOrDefault(option=>option.Id == updateOptionDto.Id);
+
+            if(option != null)
+            {
+                option.Text = updateOptionDto.Text;
+                option.QuestionId = updateOptionDto.QuestionId;
+            }
+            await _dbContext.SaveChangesAsync();
         }
 
-        void IOptionService.Update(UpdateOptionDto updateOptionDto)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

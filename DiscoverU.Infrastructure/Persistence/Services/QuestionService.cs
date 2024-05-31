@@ -1,13 +1,7 @@
 ﻿using DiscoverU.Application.Dtos.QuestionDto;
 using DiscoverU.Application.Services;
-using DiscoverU.Domain.Entities;
 using DiscoverU.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DiscoverU.Infrastructure.Persistence.Services
 {
@@ -20,7 +14,7 @@ namespace DiscoverU.Infrastructure.Persistence.Services
             _dbContext = dbContext;
         }
 
-        public void Add(AddQuestionDto addQuestionDto)
+        public async Task AddAsync(AddQuestionDto addQuestionDto)
         {
             if (addQuestionDto == null) throw new ArgumentNullException(nameof(addQuestionDto));
 
@@ -28,16 +22,29 @@ namespace DiscoverU.Infrastructure.Persistence.Services
 
              _dbContext.AddAsync(question);
 
+            await _dbContext.SaveChangesAsync();
+
         }
 
-        public Task DeleteAsync(Guid id)
+
+        public async Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var question = await _dbContext.Question.FirstOrDefaultAsync(question => question.Id == id);
+            if (question != null)
+            {
+                question.IsDelete = true;
+                await _dbContext.SaveChangesAsync();
+            }
         }
 
-        public Task<List<GetQuestionDto>> GetAllAsync()
+
+        public async Task<IEnumerable<GetQuestionDto>> GetAllBySurveyIdAsync(Guid surveyId)
         {
-            throw new NotImplementedException();
+            var questions=_dbContext.Question.Where(question => question.IsDelete! && question.SurveyId==surveyId).ToList();
+
+            var getQuestionDtos = questions.Select(question => GetQuestionDto.MapToGetQuestionDto(question));
+
+            return await Task.FromResult(getQuestionDtos);
         }
 
         public Task<GetQuestionDto> GetByIdAsync(int id)
@@ -45,11 +52,17 @@ namespace DiscoverU.Infrastructure.Persistence.Services
             throw new NotImplementedException();
         }
 
-        public void Update(UpdateQuestionDto updateQuestionDto)
-        {
-            throw new NotImplementedException();
-        }
 
-        
+        public async Task UpdateAsync(UpdateQuestionDto updateQuestionDto)
+        {
+            var question = await _dbContext.Question.FirstOrDefaultAsync(question => question.Id == updateQuestionDto.Id);
+
+            if (question != null)
+            {
+                question.Text = updateQuestionDto.Text;
+            }
+
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }
