@@ -1,8 +1,6 @@
 module.exports = {
     content: [
-        './src/**/*.{html,razor,cshtml}',
-        './src/**/*.razor',
-        './src/**/*.cshtml',
+        "./**/*.{razor,html,cshtml}",
     ],
     theme: {
         extend: {
