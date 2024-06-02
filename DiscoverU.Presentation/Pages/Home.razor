@@ -1,59 +1,64 @@
 ﻿@page "/"
+@inject HttpClient HttpClient
+@using DiscoverU.Application.Dtos.SurveyDto
 
 
-<button class="btn btn-active btn-accent">Accent</button>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animated Cards</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-      
 
-        .fade-in {
-            animation: fadeIn 1s ease-in-out;
-        }
+<style>
+    .hover-zoom:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+</style>
 
-        .hover-rotate:hover {
-            transform: rotate(3deg);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-    </style>
-</head>
 
-<body class="bg-gray-100">
-    <div class="container mx-auto p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-        <!-- Card 1 -->
-        <div class="max-w-sm mx-auto bg-white shadow-lg rounded-lg overflow-hidden transform transition duration-500 fade-in hover-rotate">
-            <p class="mt-2 text-gray-600">If a dog chews shoes whose shoes does he choose?</p>
-            <div class="p-6 text-center">
-                <h2 class="text-2xl font-bold text-gray-900">Shoes!</h2>
-                <p class="mt-2 text-gray-600">If a dog chews shoes whose shoes does he choose?</p>
-                <div class="mt-4">
-                    <button class="btn btn-primary bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-lg transition duration-300">Buy Now</button>
+<div class="container mx-auto p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    @if (Cards is null)
+    {
+        <div>lOADİNG</div>
+    }
+    else if (!Cards.Any())
+    {
+        <div role="alert" class="alert alert-warning">
+            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 h-6 w-6 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+            <span>There aren't any products to be shown.</span>
+        </div>
+    }
+    else
+    {
+
+        @foreach (var card in Cards)
+        {
+            <div class="max-w-sm mx-auto bg-white shadow-lg rounded-lg overflow-hidden transform transition duration-500 hover-zoom">
+                <img class="w-full h-64 object-cover" src="@card.ImageUrl" width="250" alt="Shoes">
+                <div class="p-6 text-center">
+                    <h2 class="text-2xl font-bold text-gray-900">@card.Title</h2>
+                    <p class="mt-2 text-gray-600">@card.Description</p>
+                    <div class="mt-4">
+                        <button class="btn btn-primary bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-lg transition duration-300">Başla</button>
+                    </div>
                 </div>
             </div>
-        </div>
-
-    </div>
-
-    <script>
-        // Add the fade-in class to all cards after the page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.fade-in');
-            cards.forEach((card, index) => {
-                setTimeout(() => {
-                    card.classList.add('opacity-100');
-                }, index * 200); // stagger the animation
-            });
-        });
-    </script>
-</body>
-</html>
-
-        @code{
-
         }
+
+
+    }
+
+
+</div>
+
+@code {
+
+    private List<GetSurveyDto> Cards = null;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Cards = await HttpClient.GetFromJsonAsync<List<GetSurveyDto>>("https://localhost:7001/api/Surveys/GetAll");
+
+        await base.OnInitializedAsync();
+        Console.WriteLine(Cards.Count());
+    }
+
+}
