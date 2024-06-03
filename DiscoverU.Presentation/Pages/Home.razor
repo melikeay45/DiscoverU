@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inject HttpClient HttpClient
+@inject NavigationManager Navigation
 @using DiscoverU.Application.Dtos.SurveyDto
 
 
@@ -36,7 +37,7 @@
                     <h2 class="text-2xl font-bold text-gray-900">@card.Title</h2>
                     <p class="mt-2 text-gray-600">@card.Description</p>
                     <div class="mt-4">
-                        <button class="btn btn-primary bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-lg transition duration-300">Başla</button>
+                        <button @onclick="() => NavigateToWeatherPage(card.Id)" class="btn btn-primary bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-lg transition duration-300">Başla</button>
                     </div>
                 </div>
             </div>
@@ -59,6 +60,11 @@
 
         await base.OnInitializedAsync();
         Console.WriteLine(Cards.Count());
+    }
+
+    private void NavigateToWeatherPage(Guid id)
+    {
+        Navigation.NavigateTo($"/QuizPage/{id}");
     }
 
 }

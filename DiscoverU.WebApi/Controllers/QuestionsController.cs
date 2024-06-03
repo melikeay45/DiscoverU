@@ -12,12 +12,13 @@ namespace DiscoverU.WebApi.Controllers
     {
         private readonly IQuestionService _questionService;
 
+
         public QuestionsController(IQuestionService questionService)
         {
             _questionService = questionService;
         }
 
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<IActionResult> AddAsync(AddQuestionDto addQuestionDto)
         {
 
@@ -33,8 +34,8 @@ namespace DiscoverU.WebApi.Controllers
         }
 
 
-        [HttpGet("{surveyId}")]
-        public async Task<ActionResult<IEnumerable<GetQuestionDto>>> GetAllByQuestionId(Guid surveyId)
+        [HttpGet("[action]/{surveyId}")]
+        public async Task<ActionResult<IEnumerable<GetQuestionDto>>> GetAllBySurveyIdAsync(Guid surveyId)
         {
             var options = await _questionService.GetAllBySurveyIdAsync(surveyId);
             return Ok(options);

@@ -1,31 +1,141 @@
-﻿<h3>QuizPage</h3>
+﻿@page "/QuizPage/{id:guid}"
+@using DiscoverU.Application.Dtos.QuestionDto
+@inject HttpClient HttpClient
+@inject NavigationManager Navigation
 
-@page "/quiz"
-<div class="container mx-auto py-8">
-    <ProgressComponent CurrentStep="currentStep" TotalSteps="totalSteps" />
-    <QuestionComponent Question="question" Answers="answers" OnAnswerSelected="OnAnswerSelected" />
-    <div class="flex justify-between mt-4">
-        <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
-            <i class="fas fa-arrow-left"></i>
-        </button>
-        <p class="text-gray-600">@currentStep / @totalSteps</p>
-    </div>
-</div>
-@code {
-    private int currentStep = 3;
-    private int totalSteps = 70;
-    private string question = "Hangisi daha kötü?";
-    private List<string> answers = new List<string>
-    {
-        "Hayal dünyasında yaşamak.",
-        "Bir rutine bağlı yaşamak."
-    };
-
-    private void OnAnswerSelected(string answer)
-    {
-        // Handle the answer selection
-        Console.WriteLine($"Selected answer: {answer}");
+<style>
+    .hover-grow:hover {
+        transform: scale(1.05);
     }
+
+    .hover-grow h2, .hover-grow p {
+        transition: transform 0.5s;
+    }
+
+    .hover-grow:hover h2, .hover-grow:hover p {
+        transform: scale(1.1);
+    }
+
+    .btn-3d {
+        /* Üç boyutlu efekt */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+        border-radius: 8px; /* Yuvarlaklık */
+    }
+
+        .btn-3d:hover {
+            transform: translateY(-2px); /* Hover efekti */
+        }
+
+    .timeline {
+        list-style-type: none;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        background-color: transparent;
+        gap: 1rem; /* Her öğe arasında 1 rem boşluk */
+        height: 100%; /* Make the height 100% to match the card */
+    }
+
+    .timeline-item {
+        display: flex;
+        align-items: center;
+    }
+
+    .timeline-info {
+        background-color: #f3f4f6;
+        color: #4b5563;
+        padding: 0.5rem;
+        margin-right: 1rem;
+        border-radius: 999px;
+    }
+
+    .timeline-content {
+        color: #1f2937;
+    }
+
+    .current .timeline-info {
+        background-color: #60a5fa;
+        color: #fff;
+    }
+
+    .container-flex {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .timeline-container {
+        height: 100%; /* Make sure this container is 100% height */
+    }
+</style>
+
+@foreach(var question in questions)
+{
+
+    <div class="container-flex">
+        <!-- Card 1 -->
+        <div class="w-3/5 bg-white shadow-lg rounded-lg overflow-hidden transform transition duration-500 hover:rotate-3 relative hover-grow">
+            <div class="bg-neutral text-neutral-content">
+                <div class="p-6 text-center">
+                    <h2 class="text-2xl font-bold">@questionNumbers</h2>
+                    <hr class="my-4" />
+                    <p class="w-full bg-gray-500 text-gray-100 p-4 rounded"><strong>@question.Text </strong></p>
+                    <hr class="my-4" />
+                    <div class="mt-4 space-y-2">
+                        @foreach (var option in question.Options)
+                        {
+                        <button class="w-full bg-gray-100 text-gray-700 py-2 px-4 rounded hover:bg-blue-400">@option</button>
+                        }
+                    </div>
+                </div>
+            </div>
+            <button class="mb-4 ml-6 btn-3d btn btn-danger bg-gray-800 text-white">Back</button>
+        </div>
+
+     
+    </div>
+}
+
+@* <!-- Timeline -->
+    <div class="w-1/5 timeline-container">
+    <ul class="timeline">
+    @foreach (var question in questionNumbers)
+    {
+    var index = questionNumbers.IndexOf(question);
+    <li class="timeline-item @(index == 2 ? "current" : "")">
+    <div class="timeline-info">@index + 1</div>
+    <div class="timeline-content">@question</div>
+    </li>
+    }
+    </ul>
+    </div> *@
+
+@code {
+    [Parameter]
+
+    public Guid id { get; set; }
+    private List<GetQuestionDto> questions;
+    private int questionNumbers =1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            questions = await HttpClient.GetFromJsonAsync<List<GetQuestionDto>>("api/Questions/{id}");
+            
+            Console.WriteLine(questions.Count);
+
+            
+        }
+        catch (Exception ex)
+        {
+            // Hata yönetimi
+            Console.WriteLine($"API request failed: {ex.Message}");
+        }
+    }
+
 }
 
 
