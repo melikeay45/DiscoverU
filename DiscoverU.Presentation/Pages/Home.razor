@@ -56,7 +56,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Cards = await HttpClient.GetFromJsonAsync<List<GetSurveyDto>>("https://localhost:7001/api/Surveys/GetAll");
+        Cards = await HttpClient.GetFromJsonAsync<List<GetSurveyDto>>("Surveys/GetAll");
 
         await base.OnInitializedAsync();
         Console.WriteLine(Cards.Count());

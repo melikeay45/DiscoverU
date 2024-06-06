@@ -40,8 +40,7 @@ namespace DiscoverU.Infrastructure.Persistence.Services
 
         public async Task<IEnumerable<GetQuestionDto>> GetAllBySurveyIdAsync(Guid surveyId)
         {
-            var questions=_dbContext.Question.Include(x => x.Options).Where(question => question.IsDelete==false && question.SurveyId==surveyId).ToList();
-            
+            var questions=_dbContext.Question.Include(x => x.Survey).Include(x=>x.Options).Where(question => question.IsDelete==false && question.SurveyId==surveyId ).ToList();
 
             var getQuestionDtos = questions.Select(question => GetQuestionDto.MapToGetQuestionDto(question));
 

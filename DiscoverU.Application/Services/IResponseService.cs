@@ -9,10 +9,10 @@ namespace DiscoverU.Application.Services
 {
     public interface IResponseService
     {
-        List<GetResponseDto> GetAll();
-        GetResponseDto GetById(Guid id);
-        void Add(AddReponseDto addResponseDto);
-        void Update(UpdateResponseDto updateResponseDto);
-        void Delete(Guid id);
+        //List<GetResponseDto> GetAll();
+        //GetResponseDto GetById(Guid id);
+        //void Add(AddReponseDto addResponseDto);
+        //void Update(UpdateResponseDto updateResponseDto);
+        //void Delete(Guid id);
     }
 }

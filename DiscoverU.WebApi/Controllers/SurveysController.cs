@@ -1,5 +1,4 @@
-﻿using DiscoverU.Application.Dtos.OptionDto;
-using DiscoverU.Application.Dtos.SurveyDto;
+﻿using DiscoverU.Application.Dtos.SurveyDto;
 using DiscoverU.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 

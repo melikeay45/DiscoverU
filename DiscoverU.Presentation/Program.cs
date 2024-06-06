@@ -8,6 +8,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:7001/api/") });
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7001/api/") });
 
 await builder.Build().RunAsync();

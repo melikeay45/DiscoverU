@@ -1,10 +1,6 @@
 ﻿using DiscoverU.Application.Dtos.OptionDto;
 using DiscoverU.Domain.Entities;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DiscoverU.Application.Dtos.QuestionDto
 {
@@ -18,16 +14,20 @@ namespace DiscoverU.Application.Dtos.QuestionDto
 
         public static GetQuestionDto MapToGetQuestionDto(Question question)
         {
+            List<GetOptionDto> options = new List<GetOptionDto>();
+
+            
             return new GetQuestionDto
             {
                 Id = question.Id,
                 Text = question.Text,
-                SurveyId= question.SurveyId,
+                SurveyId = question.SurveyId,
                 SurveyTitle = question.Survey.Title,
+                Options = question.Options.Select(GetOptionDto.MapToGetOptionDto).ToList(),
             };
 
         }
 
     }
-    
+
 }

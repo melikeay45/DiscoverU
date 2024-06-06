@@ -1,5 +1,6 @@
 ﻿@page "/QuizPage/{id:guid}"
 @using DiscoverU.Application.Dtos.QuestionDto
+@using DiscoverU.Application.Dtos.ResponseDto
 @inject HttpClient HttpClient
 @inject NavigationManager Navigation
 
@@ -71,69 +72,45 @@
     }
 </style>
 
-@foreach(var question in questions)
+@for (int i = 1; i < questions.Count;i++)
 {
 
-    <div class="container-flex">
-        <!-- Card 1 -->
-        <div class="w-3/5 bg-white shadow-lg rounded-lg overflow-hidden transform transition duration-500 hover:rotate-3 relative hover-grow">
-            <div class="bg-neutral text-neutral-content">
-                <div class="p-6 text-center">
-                    <h2 class="text-2xl font-bold">@questionNumbers</h2>
-                    <hr class="my-4" />
-                    <p class="w-full bg-gray-500 text-gray-100 p-4 rounded"><strong>@question.Text </strong></p>
-                    <hr class="my-4" />
-                    <div class="mt-4 space-y-2">
-                        @foreach (var option in question.Options)
-                        {
-                        <button class="w-full bg-gray-100 text-gray-700 py-2 px-4 rounded hover:bg-blue-400">@option</button>
-                        }
-                    </div>
-                </div>
-            </div>
-            <button class="mb-4 ml-6 btn-3d btn btn-danger bg-gray-800 text-white">Back</button>
-        </div>
-
-     
-    </div>
+   <QuestionComponent Question="question[i]" SelectedOptionEventCallBack="SelectedOption"/>
 }
 
-@* <!-- Timeline -->
-    <div class="w-1/5 timeline-container">
-    <ul class="timeline">
-    @foreach (var question in questionNumbers)
-    {
-    var index = questionNumbers.IndexOf(question);
-    <li class="timeline-item @(index == 2 ? "current" : "")">
-    <div class="timeline-info">@index + 1</div>
-    <div class="timeline-content">@question</div>
-    </li>
-    }
-    </ul>
-    </div> *@
 
 @code {
     [Parameter]
 
     public Guid id { get; set; }
     private List<GetQuestionDto> questions;
-    private int questionNumbers =1;
+    private List<UserReponseDto> UserResponseDtos;
+    private UserReponseDto receivedData;
+    private Guid selectedOptionId;
+    private int questionNumbers = 1;
+
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            questions = await HttpClient.GetFromJsonAsync<List<GetQuestionDto>>("api/Questions/{id}");
-            
-            Console.WriteLine(questions.Count);
+            questions = await HttpClient.GetFromJsonAsync<List<GetQuestionDto>>($"Questions/GetAllBySurveyId/{id}");
 
-            
+
         }
         catch (Exception ex)
         {
             // Hata yönetimi
             Console.WriteLine($"API request failed: {ex.Message}");
         }
+
+    }
+
+
+    private void SelectedOption(UserReponseDto responseDto)
+    {
+        UserResponseDtos.Add(responseDto);
+
     }
 
 }
