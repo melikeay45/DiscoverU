@@ -18,8 +18,9 @@ namespace DiscoverU.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<string> AddAsync(OpenAIPrompt openAIPrompt)
+        public async Task<string> AddAsync(string prompt)
         {
+            var openAIPrompt = new OpenAIPrompt() { Message = prompt };
             var chatMessage = OpenAIPrompt.MapOpenAIPromptToChatMessages(openAIPrompt);
              List<ChatMessage> chatMessages = new List<ChatMessage>();
 

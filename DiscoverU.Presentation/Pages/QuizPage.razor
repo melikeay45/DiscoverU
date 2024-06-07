@@ -1,27 +1,28 @@
 ﻿@page "/QuizPage/{id:guid}"
 @using DiscoverU.Application.Dtos.QuestionDto
 @using DiscoverU.Application.Dtos.ResponseDto
+@using DiscoverU.Application.Dtos.SurveyDto
+@using System.Text
 @inject HttpClient HttpClient
 @inject NavigationManager Navigation
 
-@if (questions != null)
-{
-    @foreach (var question in questions)
-    {
 
-        <QuestionComponent2 question="question" SelectedOptionEventCallBack="SelectedOption" />
-    }
+@if (currentQuestionIndex < questions.Count)
+{
+    <QuestionComponent2 @key="currentQuestionIndex" question="questions[currentQuestionIndex]" SelectedOptionEventCallBack="SelectedOption" />
 }
 else
 {
-    <p>Loading...</p>
+    <p>Anket tamamlandı!</p>
 }
 
 
 @code {
     [Parameter] public Guid id { get; set; }
     private List<GetQuestionDto> questions;
-    private List<UserReponseDto> UserResponseDtos = new List<UserReponseDto>();
+    private List<UserReponseDto> UserResponses = new List<UserReponseDto>();
+    private GetSurveyDto survey;
+    private int currentQuestionIndex = 0;
 
     protected override async Task OnInitializedAsync()
     {
@@ -34,6 +35,7 @@ else
             }
 
             questions = await HttpClient.GetFromJsonAsync<List<GetQuestionDto>>($"Questions/GetAllBySurveyId/{id}");
+            survey = await HttpClient.GetFromJsonAsync<GetSurveyDto>($"Surveys/GetAll");
             if (questions == null || !questions.Any())
             {
                 Console.WriteLine("No questions returned from the API.");
@@ -47,7 +49,26 @@ else
 
     private void SelectedOption(UserReponseDto responseDto)
     {
-        UserResponseDtos.Add(responseDto);
-        Console.WriteLine(responseDto.OptionText);
+        UserResponses.Add(responseDto);
+        Console.WriteLine(responseDto.QuestionText + "----------" + responseDto.OptionText);
+        currentQuestionIndex++;
+        StateHasChanged();
+    }
+
+    private async void CreatePromptGetOpenAIResponse()
+    {
+        StringBuilder prompt = new StringBuilder();
+
+        prompt.AppendLine("Sen zeki bir kariyer danışmanısın.Kullanıcı tarafından verilen cevaplara dayanarak, onlara en uygun meslekleri önereceksin.Verilen cevapları analiz et ve üç meslek önerisinde bulun, her öneri için kısa bir açıklama yap.Kullanıcının ilgi alanlarını, yeteneklerini ve tercihlerini dikkate al.Kullanıcı tarafından verilen cevaplar şu şekildedir:");
+        prompt.AppendLine("/n");
+        for (int i = 0; i < UserResponses.Count;i++)
+        {
+            prompt.Append(i + 1 + ". "+UserResponses[i].QuestionText);
+            prompt.AppendLine("Cevap: "+UserResponses[i].OptionText);
+        }
+        var content = new StringContent($"{{\"prompt\":\"{prompt}\"}}", System.Text.Encoding.UTF8, "application/json");
+        var OpenAIResponse = await HttpClient.PostAsync($"OpenAI/Add", content);
+
     }
 }
+

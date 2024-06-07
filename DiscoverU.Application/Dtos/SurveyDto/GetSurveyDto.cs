@@ -16,6 +16,8 @@ namespace DiscoverU.Application.Dtos.SurveyDto
 
         public string ImageUrl { get; set; }
 
+
+
         public static GetSurveyDto MapToGetSurveyDto(Survey survey)
         {
             return new GetSurveyDto

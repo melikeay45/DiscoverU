@@ -9,7 +9,6 @@ namespace DiscoverU.Application.Dtos.QuestionDto
         public Guid Id { get; set; }
         public string Text { get; set; }
         public Guid SurveyId { get; set; }
-        public string SurveyTitle { get; set; }
         public ICollection<GetOptionDto>? Options { get; set; }
 
         public static GetQuestionDto MapToGetQuestionDto(Question question)
@@ -22,7 +21,6 @@ namespace DiscoverU.Application.Dtos.QuestionDto
                 Id = question.Id,
                 Text = question.Text,
                 SurveyId = question.SurveyId,
-                SurveyTitle = question.Survey.Title,
                 Options = question.Options.Select(GetOptionDto.MapToGetOptionDto).ToList(),
             };
             
