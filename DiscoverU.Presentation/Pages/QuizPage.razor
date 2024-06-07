@@ -4,115 +4,47 @@
 @inject HttpClient HttpClient
 @inject NavigationManager Navigation
 
-<style>
-    .hover-grow:hover {
-        transform: scale(1.05);
-    }
-
-    .hover-grow h2, .hover-grow p {
-        transition: transform 0.5s;
-    }
-
-    .hover-grow:hover h2, .hover-grow:hover p {
-        transform: scale(1.1);
-    }
-
-    .btn-3d {
-        /* Üç boyutlu efekt */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s;
-        border-radius: 8px; /* Yuvarlaklık */
-    }
-
-        .btn-3d:hover {
-            transform: translateY(-2px); /* Hover efekti */
-        }
-
-    .timeline {
-        list-style-type: none;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        background-color: transparent;
-        gap: 1rem; /* Her öğe arasında 1 rem boşluk */
-        height: 100%; /* Make the height 100% to match the card */
-    }
-
-    .timeline-item {
-        display: flex;
-        align-items: center;
-    }
-
-    .timeline-info {
-        background-color: #f3f4f6;
-        color: #4b5563;
-        padding: 0.5rem;
-        margin-right: 1rem;
-        border-radius: 999px;
-    }
-
-    .timeline-content {
-        color: #1f2937;
-    }
-
-    .current .timeline-info {
-        background-color: #60a5fa;
-        color: #fff;
-    }
-
-    .container-flex {
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        gap: 20px;
-    }
-
-    .timeline-container {
-        height: 100%; /* Make sure this container is 100% height */
-    }
-</style>
-
-@for (int i = 1; i < questions.Count;i++)
+@if (questions != null)
 {
+    @foreach (var question in questions)
+    {
 
-   <QuestionComponent Question="question[i]" SelectedOptionEventCallBack="SelectedOption"/>
+        <QuestionComponent2 @key="question" question="question" SelectedOptionEventCallBack="SelectedOption" />
+    }
 }
-
-
+else
+{
+    <p>Loading...</p>
+}
 @code {
-    [Parameter]
-
-    public Guid id { get; set; }
+    [Parameter] public Guid id { get; set; }
     private List<GetQuestionDto> questions;
-    private List<UserReponseDto> UserResponseDtos;
-    private UserReponseDto receivedData;
-    private Guid selectedOptionId;
-    private int questionNumbers = 1;
-
+    private List<UserReponseDto> UserResponseDtos = new List<UserReponseDto>();
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
+            if (id == Guid.Empty)
+            {
+                Console.WriteLine("Survey Id is null");
+                return;
+            }
+
             questions = await HttpClient.GetFromJsonAsync<List<GetQuestionDto>>($"Questions/GetAllBySurveyId/{id}");
-
-
+            if (questions == null || !questions.Any())
+            {
+                Console.WriteLine("No questions returned from the API.");
+            }
         }
         catch (Exception ex)
         {
-            // Hata yönetimi
             Console.WriteLine($"API request failed: {ex.Message}");
         }
-
     }
-
 
     private void SelectedOption(UserReponseDto responseDto)
     {
         UserResponseDtos.Add(responseDto);
-
     }
-
 }
-
-

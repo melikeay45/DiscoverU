@@ -17,7 +17,7 @@ namespace DiscoverU.Application.Dtos.QuestionDto
             List<GetOptionDto> options = new List<GetOptionDto>();
 
             
-            return new GetQuestionDto
+            var Question= new GetQuestionDto
             {
                 Id = question.Id,
                 Text = question.Text,
@@ -25,6 +25,8 @@ namespace DiscoverU.Application.Dtos.QuestionDto
                 SurveyTitle = question.Survey.Title,
                 Options = question.Options.Select(GetOptionDto.MapToGetOptionDto).ToList(),
             };
+            
+            return Question;
 
         }
 

@@ -35,10 +35,11 @@ namespace DiscoverU.WebApi.Controllers
 
 
         [HttpGet("[action]/{surveyId}")]
-        public async Task<ActionResult<IEnumerable<GetQuestionDto>>> GetAllBySurveyIdAsync(Guid surveyId)
+        public async Task<IEnumerable<GetQuestionDto>> GetAllBySurveyIdAsync(Guid surveyId)
         {
-            var options = await _questionService.GetAllBySurveyIdAsync(surveyId);
-            return Ok(options);
+            var questions = await _questionService.GetAllBySurveyIdAsync(surveyId);
+            
+            return questions;
         }
 
      

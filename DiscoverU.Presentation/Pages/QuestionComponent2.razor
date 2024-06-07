@@ -1,23 +1,30 @@
-﻿@inject NavigationManager Navigation
-
-@using DiscoverU.Application.Dtos.OptionDto
-@using DiscoverU.Application.Dtos.QuestionDto
+﻿@using DiscoverU.Application.Dtos.QuestionDto
 @using DiscoverU.Application.Dtos.ResponseDto
+@inject NavigationManager Navigation
+
 <div class="container-flex">
     <!-- Card 1 -->
     <div class="w-3/5 bg-white shadow-lg rounded-lg overflow-hidden transform transition duration-500 hover:rotate-3 relative hover-grow">
         <div class="bg-neutral text-neutral-content">
             <div class="p-6 text-center">
-@*                 <h2 class="text-2xl font-bold">@questionNumbers</h2>
- *@                <hr class="my-4" />
-                <p class="w-full bg-gray-500 text-gray-100 p-4 rounded"><strong>@question.Text</strong></p>
-                <hr class="my-4" />
-                <div class="mt-4 space-y-2">
-                    @foreach (var option in question.Options)
-                    {
-                        <button @onclick="@(() => HandleButtonClick(option.Id))">@(option.Text)</button>
-                    }
-                </div>
+                @if (question != null)
+                {
+                    <p class="w-full bg-gray-500 text-gray-100 p-4 rounded"><strong>@question.Text</strong></p>
+                    <hr class="my-4" />
+                    <div class="mt-4 space-y-2">
+                        @if (question.Options != null)
+                        {
+                            @foreach (var option in question.Options)
+                            {
+                                <button class="btn btn-block" @onclick="@(() => HandleButtonClick(option.Id))">@(option.Text)</button>
+                            }
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p>Loading...</p>
+                }
             </div>
         </div>
     </div>
@@ -25,27 +32,24 @@
 
 @code {
     [Parameter] public GetQuestionDto question { get; set; }
+    [Parameter] public EventCallback<UserReponseDto> SelectedOptionEventCallBack { get; set; }
 
-
-    private void SelectedOption(Guid optionId)
-    {
-        string targetUrl = "/" + optionId; 
-        Navigation.NavigateTo(targetUrl);
-    }
 
     private async Task HandleButtonClick(Guid _optionId)
     {
-        var responseDto = new UserReponseDto
+        if (question != null && question.Options != null)
         {
-            QuestionText=question.Text,
-            OptionText= question.Options.FirstOrDefault(x => x.Id == _optionId).Text
+            var selectedOption = question.Options.FirstOrDefault(x => x.Id == _optionId);
+            if (selectedOption != null)
+            {
+                var responseDto = new UserReponseDto
+                    {
+                        QuestionText = question.Text,
+                        OptionText = selectedOption.Text
+                    };
 
-        };
-
-       await SelectedOptionEventCallBack.InvokeAsync(responseDto);
+                await SelectedOptionEventCallBack.InvokeAsync(responseDto);
+            }
+        }
     }
-
-    [Parameter] public EventCallback<UserReponseDto> SelectedOptionEventCallBack { get; set; }
-
-}
 }
