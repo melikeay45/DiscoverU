@@ -2,33 +2,26 @@
 @using DiscoverU.Application.Dtos.ResponseDto
 @inject NavigationManager Navigation
 
-<div class="container-flex">
-    <!-- Card 1 -->
-    <div class="w-3/5 bg-white shadow-lg rounded-lg overflow-hidden transform transition duration-500 hover:rotate-3 relative hover-grow">
-        <div class="bg-neutral text-neutral-content">
-            <div class="p-6 text-center">
-                @if (question != null)
-                {
-                    <p class="w-full bg-gray-500 text-gray-100 p-4 rounded"><strong>@question.Text</strong></p>
-                    <hr class="my-4" />
-                    <div class="mt-4 space-y-2">
-                        @if (question.Options != null)
-                        {
-                            @foreach (var option in question.Options)
-                            {
-                                <button class="btn btn-block" @onclick="@(() => HandleButtonClick(option.Id))">@(option.Text)</button>
-                            }
-                        }
-                    </div>
-                }
-                else
-                {
-                    <p>Loading...</p>
-                }
-            </div>
-        </div>
+
+@if (question != null)
+{
+    <p class="w-full bg-gray-500 text-gray-100 p-4 rounded"><strong>@question.Text</strong></p>
+    <hr class="my-4" />
+    <div class="mt-4 space-y-2">
+        @if (question.Options != null)
+        {
+            @foreach (var option in question.Options)
+            {
+                <button class="btn btn-block" @onclick="@(() => HandleButtonClick(option.Id))">@(option.Text)</button>
+            }
+        }
     </div>
-</div>
+}
+else
+{
+    <p>Loading...</p>
+}
+
 
 @code {
     [Parameter] public GetQuestionDto question { get; set; }

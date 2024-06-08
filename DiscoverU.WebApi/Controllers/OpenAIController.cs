@@ -17,7 +17,7 @@ namespace DiscoverU.WebApi.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<string> AddAsync(string prompt)
         {
             var openAIPrompt = new OpenAIPrompt() { Message = prompt };
@@ -35,9 +35,7 @@ namespace DiscoverU.WebApi.Controllers
                 //Console.WriteLine(completionResult.Choices.First().Message.Content);
 
                 var receivedMessage = completionResult.Choices.First().Message.Content;
-                return receivedMessage;
-
-            
+                return receivedMessage;           
         }
     }
 }

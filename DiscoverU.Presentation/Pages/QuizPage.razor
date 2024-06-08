@@ -3,18 +3,28 @@
 @using DiscoverU.Application.Dtos.ResponseDto
 @using DiscoverU.Application.Dtos.SurveyDto
 @using System.Text
+@using System.Text.Json
 @inject HttpClient HttpClient
 @inject NavigationManager Navigation
 
+<div class="container-flex">
+    <!-- Card 1 -->
+    <div class="w-3/5 bg-white shadow-lg rounded-lg overflow-hidden transform transition duration-500 hover:rotate-3 relative hover-grow">
+        <div class="bg-neutral text-neutral-content">
+            <div class="p-6 text-center">
+                @if (currentQuestionIndex < questions.Count)
+                {
+                    <QuestionComponent2 @key="currentQuestionIndex" question="questions[currentQuestionIndex]" SelectedOptionEventCallBack="SelectedOption" />
+                }
+                else
+                {
+                    <p class="w-full bg-gray-500 text-gray-100 p-4 rounded"><strong>@OpenAIResponseMessage</strong></p>
+                }
 
-@if (currentQuestionIndex < questions.Count)
-{
-    <QuestionComponent2 @key="currentQuestionIndex" question="questions[currentQuestionIndex]" SelectedOptionEventCallBack="SelectedOption" />
-}
-else
-{
-    <p>Anket tamamlandı!</p>
-}
+            </div>
+        </div>
+    </div>
+</div>
 
 
 @code {
@@ -22,6 +32,7 @@ else
     private List<GetQuestionDto> questions;
     private List<UserReponseDto> UserResponses = new List<UserReponseDto>();
     private GetSurveyDto survey;
+    private string OpenAIResponseMessage="";
     private int currentQuestionIndex = 0;
 
     protected override async Task OnInitializedAsync()
@@ -50,25 +61,41 @@ else
     private void SelectedOption(UserReponseDto responseDto)
     {
         UserResponses.Add(responseDto);
-        Console.WriteLine(responseDto.QuestionText + "----------" + responseDto.OptionText);
         currentQuestionIndex++;
+
+        if (currentQuestionIndex >= questions.Count)
+        {
+            OpenAIResponseMessage = CreatePromptGetOpenAIResponseAsync().ToString();
+        }
+
         StateHasChanged();
     }
 
-    private async void CreatePromptGetOpenAIResponse()
+    private async Task<string> CreatePromptGetOpenAIResponseAsync()
     {
         StringBuilder prompt = new StringBuilder();
 
         prompt.AppendLine("Sen zeki bir kariyer danışmanısın.Kullanıcı tarafından verilen cevaplara dayanarak, onlara en uygun meslekleri önereceksin.Verilen cevapları analiz et ve üç meslek önerisinde bulun, her öneri için kısa bir açıklama yap.Kullanıcının ilgi alanlarını, yeteneklerini ve tercihlerini dikkate al.Kullanıcı tarafından verilen cevaplar şu şekildedir:");
         prompt.AppendLine("/n");
-        for (int i = 0; i < UserResponses.Count;i++)
+        for (int i = 0; i < UserResponses.Count; i++)
         {
-            prompt.Append(i + 1 + ". "+UserResponses[i].QuestionText);
-            prompt.AppendLine("Cevap: "+UserResponses[i].OptionText);
+            prompt.Append(i + 1 + ". " + UserResponses[i].QuestionText);
+            prompt.AppendLine("Cevap: " + UserResponses[i].OptionText);
         }
-        var content = new StringContent($"{{\"prompt\":\"{prompt}\"}}", System.Text.Encoding.UTF8, "application/json");
-        var OpenAIResponse = await HttpClient.PostAsync($"OpenAI/Add", content);
 
+
+        var content = new StringContent(prompt.ToString(), Encoding.UTF8, "application/json");
+        var response = await HttpClient.PostAsync($"OpenAI/Add", content);
+    if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"API request failed with status code {response.StatusCode}: {error}");
+            return $"Error: {response.StatusCode} - {error}";
+        }
+
+        var responseString = await response.Content.ReadAsStringAsync();
+        Console.WriteLine(responseString);
+        return responseString;
     }
 }
 
