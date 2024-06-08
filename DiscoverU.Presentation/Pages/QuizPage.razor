@@ -1,4 +1,5 @@
 ﻿@page "/QuizPage/{id:guid}"
+@using DiscoverU.Application.Dtos.OpenAIDto
 @using DiscoverU.Application.Dtos.QuestionDto
 @using DiscoverU.Application.Dtos.ResponseDto
 @using DiscoverU.Application.Dtos.SurveyDto
@@ -58,14 +59,14 @@
         }
     }
 
-    private void SelectedOption(UserReponseDto responseDto)
+    private async void SelectedOption(UserReponseDto responseDto)
     {
         UserResponses.Add(responseDto);
         currentQuestionIndex++;
 
         if (currentQuestionIndex >= questions.Count)
         {
-            OpenAIResponseMessage = CreatePromptGetOpenAIResponseAsync().ToString();
+            OpenAIResponseMessage = await CreatePromptGetOpenAIResponseAsync();
         }
 
         StateHasChanged();
@@ -83,9 +84,10 @@
             prompt.AppendLine("Cevap: " + UserResponses[i].OptionText);
         }
 
+        var openAIPrompt = new OpenAIPrompt() { Message = prompt.ToString() };
 
-        var content = new StringContent(prompt.ToString(), Encoding.UTF8, "application/json");
-        var response = await HttpClient.PostAsync($"OpenAI/Add", content);
+        var response = await HttpClient.PostAsJsonAsync($"OpenAI/Add", openAIPrompt);
+
     if (!response.IsSuccessStatusCode)
         {
             var error = await response.Content.ReadAsStringAsync();
