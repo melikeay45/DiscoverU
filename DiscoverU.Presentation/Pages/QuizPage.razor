@@ -8,20 +8,19 @@
 @inject HttpClient HttpClient
 @inject NavigationManager Navigation
 
-<div class="container-flex">
+<div class="container mx-auto mx-4 flex justify-center items-center min-h-screen">
     <!-- Card 1 -->
-    <div class="w-3/5 bg-white shadow-lg rounded-lg overflow-hidden transform transition duration-500 hover:rotate-3 relative hover-grow">
+    <div class="w-120 max-w-96 p-16 bg-white shadow-lg rounded-xl overflow-hidden transform transition duration-500 hover:rotate-3 hover-grow">
         <div class="bg-neutral text-neutral-content">
-            <div class="p-6 text-center">
+            <div class="p-16 text-center text-xl">
                 @if (currentQuestionIndex < questions.Count)
                 {
                     <QuestionComponent2 @key="currentQuestionIndex" question="questions[currentQuestionIndex]" SelectedOptionEventCallBack="SelectedOption" />
                 }
                 else
                 {
-                    <p class="w-full bg-gray-500 text-gray-100 p-4 rounded"><strong>@OpenAIResponseMessage</strong></p>
+                    <p class="w-full bg-gray-500 text-gray-100 p-6 rounded text-lg"><strong>@OpenAIResponseMessage</strong></p>
                 }
-
             </div>
         </div>
     </div>

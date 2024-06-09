@@ -711,8 +711,8 @@ html {
   border-radius: var(--rounded-btn, 0.5rem);
   border-color: transparent;
   border-color: oklch(var(--btn-color, var(--b2)) / var(--tw-border-opacity));
-  padding-left: 1rem;
-  padding-right: 1rem;
+  /*padding-left: 1rem;
+  padding-right: 1rem;*/
   text-align: center;
   font-size: 0.875rem;
   line-height: 1em;
@@ -1349,8 +1349,8 @@ details.collapse summary::-webkit-details-marker {
 .menu :where(li:not(.menu-title) > *:not(ul, details, .menu-title, .btn)),
 .menu :where(li:not(.menu-title) > details > summary:not(.menu-title)) {
   border-radius: var(--rounded-btn, 0.5rem);
-  padding-left: 1rem;
-  padding-right: 1rem;
+ /* padding-left: 1rem;
+  padding-right: 1rem;*/
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   text-align: start;
@@ -1466,8 +1466,8 @@ details.collapse summary::-webkit-details-marker {
 }
 
 .table :where(th, td) {
-  padding-left: 1rem;
-  padding-right: 1rem;
+ /* padding-left: 1rem;
+  padding-right: 1rem;*/
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
   vertical-align: middle;
@@ -1569,8 +1569,8 @@ details.collapse summary::-webkit-details-marker {
 }
 
 .px-4 {
-  padding-left: 1rem;
-  padding-right: 1rem;
+  /*padding-left: 1rem;
+  padding-right: 1rem;*/
 }
 
 .ps-3 {

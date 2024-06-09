@@ -5,14 +5,14 @@
 
 @if (question != null)
 {
-    <p class="w-full bg-gray-500 text-gray-100 p-4 rounded"><strong>@question.Text</strong></p>
+    <p class="w-full bg-gray-500 text-gray-100 p-6 rounded text-lg"><strong>@question.Text</strong></p>
     <hr class="my-4" />
-    <div class="mt-4 space-y-2">
+    <div class="mt-4 space-y-4">
         @if (question.Options != null)
         {
             @foreach (var option in question.Options)
             {
-                <button class="btn btn-block" @onclick="@(() => HandleButtonClick(option.Id))">@(option.Text)</button>
+                <button class="w-full bg-gray-200 text-gray-800 p-4 rounded-full" @onclick="@(() => HandleButtonClick(option.Id))">@(option.Text)</button>
             }
         }
     </div>
@@ -21,7 +21,6 @@ else
 {
     <p>Loading...</p>
 }
-
 
 @code {
     [Parameter] public GetQuestionDto question { get; set; }

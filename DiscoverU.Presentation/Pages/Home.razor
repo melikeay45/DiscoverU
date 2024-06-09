@@ -2,17 +2,52 @@
 @inject HttpClient HttpClient
 @inject NavigationManager Navigation
 @using DiscoverU.Application.Dtos.SurveyDto
-
+@using Microsoft.AspNetCore.Components
+@using Microsoft.JSInterop
 
 
 <style>
+
     .hover-zoom:hover {
         transform: scale(1.05);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     }
+
+    .iframe-container {
+        position: relative;
+        width: 100%;
+        height: 100vh; /* Tam ekran yapmak için height: 100vh kullanıyoruz */
+    }
+
+    .full-screen-iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+       
+    }
+
+    .overlay-text {
+        position: absolute;
+        top: 70px; /* Üstten boşluk bırakma */
+        left: 50%;
+        transform: translateX(-50%);
+        color: white; /* Yazı rengini ayarlayabilirsiniz */
+/*         background-color: rgba(0, 0, 0, 0.5); /* Arka plan rengini ve opaklığını ayarlayabilirsiniz */
+ */        padding: 20px; /* Boşluk ekleyebilirsiniz */
+        border-radius: 10px; /* Köşeleri yuvarlatabilirsiniz */
+        z-index: 1; /* Üstte olmasını sağlamak için z-index kullanıyoruz */
+        font-size: 100px; /* Yazı boyutunu ayarlayabilirsiniz */
+        font-family: 'Arial', sans-serif; /* Yazı tipini ayarlayabilirsiniz, daha havalı bir yazı tipi kullanabilirsiniz */
+        text-align: center; /* Yazıyı ortalamak için */
 </style>
 
-
+<div class="iframe-container">
+    <iframe src="https://eyes.nasa.gov/apps/solar-system/#/home?featured=false&detailPanel=false&logo=false&search=false&shareButton=false&menu=false&collapseSettingsOptions=true&hideFullScreenToggle=true&locked=true&hideExternalLinks=true" class="full-screen-iframe"></iframe>
+    <div class="overlay-text">DiscoverU</div>
+</div>
 
 <div class="container mx-auto p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     @if (Cards is null)
@@ -49,10 +84,10 @@
 
 </div>
 
+
 @code {
 
     private List<GetSurveyDto> Cards = null;
-
 
     protected override async Task OnInitializedAsync()
     {
