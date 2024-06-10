@@ -2,16 +2,22 @@
 @inject IJSRuntime JSRuntime
 
 <style>
-
-    .hover-zoom:hover {
-        transform: scale(1.05);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden; /* Ensure no scrollbars appear */
     }
 
     .iframe-container {
-        position: relative;
+        position: fixed;
+        top: 0;
+        left: 0;
         width: 100%;
-        height: 100vh; /* Tam ekran yapmak için height: 100vh kullanıyoruz */
+        height: 100%;
+        margin: 0;
+        padding: 0;
     }
 
     .full-screen-iframe {
@@ -23,24 +29,12 @@
         border: none;
     }
 
-    .overlay-text {
-        position: absolute;
-        top: 70px; /* Üstten boşluk bırakma */
-        left: 50%;
-        transform: translateX(-50%);
-        color: white; /* Yazı rengini ayarlayabilirsiniz */
-        /*         background-color: rgba(0, 0, 0, 0.5); /* Arka plan rengini ve opaklığını ayarlayabilirsiniz */
-        */ padding: 20px; /* Boşluk ekleyebilirsiniz */
-        border-radius: 10px; /* Köşeleri yuvarlatabilirsiniz */
-        z-index: 1; /* Üstte olmasını sağlamak için z-index kullanıyoruz */
-        font-size: 100px; /* Yazı boyutunu ayarlayabilirsiniz */
-        font-family: 'Arial', sans-serif; /* Yazı tipini ayarlayabilirsiniz, daha havalı bir yazı tipi kullanabilirsiniz */
-        text-align: center; /* Yazıyı ortalamak için */
+
 </style>
 
 
 <div class="iframe-container">
-    <iframe src="https://my.spline.design/happyrobotbutton-81d036148a92f3083e336b0da52b9b08/"
+    <iframe src="https://my.spline.design/happyrobotbutton-1a12eafb622b4df86883c7c32bbe33ef/"
             class="full-screen-iframe"></iframe>
 </div>
 
